@@ -1,6 +1,7 @@
 <template>
     <div v-if="movie" class="movie-container" role="main" aria-label="Movie Details">
         <!-- Backdrop Hero -->
+        <button class="back-button" @click="goBack">← Back</button>
         <section class="hero" :style="{ backgroundImage: movie.backdrop_path ? `linear-gradient(to right, rgba(0,0,0,0.85), rgba(0,0,0,0.1)), url(https://image.tmdb.org/t/p/original${movie.backdrop_path})` : 'none' }">
             <div class="hero-content">
                 <img class="poster" :src="movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : ''" loading="lazy" @error="e => { e.target.style.display = 'none';e.target.nextElementSibling.style.display = 'flex';}" />
@@ -57,10 +58,16 @@
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter  } from 'vue-router'
 import { useTmdbApi } from '~/composables/useTmdb'
 
 const route = useRoute()
+const router = useRouter()
+
+const goBack = () => {
+  router.back()
+}
+
 const { fetchMovieDetails } = useTmdbApi()
 
 const { data: movie } = await useAsyncData('movie', () =>
@@ -222,4 +229,23 @@ const { data: movie } = await useAsyncData('movie', () =>
     font-size: 1.25rem;
     font-weight: 600;
 }
+.back-button {
+  position: absolute;
+  margin: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #0077ff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover,
+.back-button:focus {
+  background-color: #005fcc;
+  outline: none;
+}
+
 </style>
