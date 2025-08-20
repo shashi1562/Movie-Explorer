@@ -1,44 +1,63 @@
 <template>
-    <form class="search-form" @submit.prevent="onSubmit">
-        <div class="form-group fade-in">
+    <div class="search-wrapper">
+        <form class="search-form" @submit.prevent="onSubmit">
             <input v-model="form.title" placeholder="Movie Title" :class="{ invalid: error && !form.title.trim() }" />
-        </div>
-        <div class="form-group fade-in" style="animation-delay: 0.1s">
-            <input v-model="form.year" type="number" placeholder="Release Year" />
-        </div>
-        <div class="form-group fade-in" style="animation-delay: 0.2s">
+            <input v-model="form.year" type="number" placeholder="Year" />
             <select v-model="form.genre">
                 <option value="">All Genres</option>
-                <option disabled v-show="loadingGenres">Loading genres...</option>
+                <option disabled v-show="loadingGenres">Loading...</option>
                 <option v-for="g in genres" :key="g.id" :value="g.id">{{ g.name }}</option>
             </select>
-        </div>
-        <button type="submit" class="submit-button fade-in" style="animation-delay: 0.3s">Search</button>
+            <button type="submit" class="submit-button">Search</button>
+        </form>
+
         <transition name="fade-slide">
             <p v-if="error" class="error">{{ error }}</p>
         </transition>
-    </form>
+    </div>
 </template>
+
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
-import { useTmdbApi } from '@/composables/useTmdb'  // adjust the path if necessary
+import { useTmdbApi } from '@/composables/useTmdb'
 
 const emit = defineEmits(['submit'])
+import { useSearchStore } from '@/stores/search'
+import { storeToRefs } from 'pinia'
+
+// Pinia store
+const searchStore = useSearchStore()
+const { title, year, genre } = storeToRefs(searchStore)
+
 
 const form = reactive({
-    title: '',
-    year: '',
-    genre: ''
+  get title() {
+    return title.value
+  },
+  set title(val) {
+    title.value = val
+  },
+  get year() {
+    return year.value
+  },
+  set year(val) {
+    year.value = val
+  },
+  get genre() {
+    return genre.value
+  },
+  set genre(val) {
+    genre.value = val
+  }
 })
 
+
 const error = ref('')
-const results = ref([])
-const genres = ref([])  // Store fetched genres
-
-const { searchMovies, fetchGenres } = useTmdbApi()  // Use both API functions
-
+const genres = ref([])
 const loadingGenres = ref(false)
+
+const { fetchGenres } = useTmdbApi()
 
 const loadGenres = async () => {
     loadingGenres.value = true
@@ -53,34 +72,24 @@ const loadGenres = async () => {
     }
 }
 
-
 onMounted(() => {
     loadGenres()
 })
 
-const onSubmit = async () => {
-    form.genre = form.genre.trim()
-    form.year = form.year.trim()
-    
+const onSubmit = () => {
     if (!form.title.trim()) {
         error.value = 'Movie title is required.'
         return
     }
 
     error.value = ''
-
-    try {
-        const response = await searchMovies(form.title, form.year, form.genre, 1)
-        results.value = response.results || []
-        emit('submit', { ...form, results: results.value })
-    } catch (err) {
-        console.error('Failed to fetch movies:', err)
-        error.value = 'Something went wrong while fetching movies.'
-    }
+    emit('submit', {
+        title: form.title,
+        year: form.year,
+        genre: form.genre
+    })
 }
-
 </script>
-
 
 <style scoped>
 /* Base layout */
@@ -89,73 +98,77 @@ input.invalid {
     box-shadow: 0 0 0 3px rgba(217, 48, 37, 0.1);
 }
 
+.search-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #fff;
+    padding: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Form in one row */
 .search-form {
     display: flex;
-    flex-direction: column;
+    align-items: center;
     gap: 1rem;
-    padding: 2rem;
-    background: linear-gradient(to right, #ffffff, #f9f9f9);
-    border-radius: 12px;
-    max-width: 480px;
-    margin: 2rem auto;
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease;
+    flex-wrap: wrap;
+    /* enables wrapping on small screens */
 }
 
-.search-form:hover {
-    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.15);
-}
-
-/* Form elements */
-input,
-select {
-    width: 100%;
-    padding: 0.75rem 1rem;
+/* Inputs and select styles */
+.search-form input,
+.search-form select {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.95rem;
     border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: border 0.2s ease, box-shadow 0.2s ease;
-    background: #fff;
+    border-radius: 6px;
+    min-width: 160px;
+    flex: 1;
 }
 
-input:focus,
-select:focus {
-    outline: none;
-    border-color: #0077ff;
-    box-shadow: 0 0 0 3px rgba(0, 119, 255, 0.2);
+.search-form input.invalid {
+    border-color: #d93025;
+    box-shadow: 0 0 0 3px rgba(217, 48, 37, 0.1);
 }
 
 .submit-button {
-    padding: 0.75rem 1.5rem;
+    padding: 0.5rem 1rem;
     background-color: #0077ff;
     color: white;
-    font-weight: bold;
+    font-weight: 600;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    white-space: nowrap;
+    transition: background-color 0.3s ease;
 }
 
 .submit-button:hover {
     background-color: #005fcc;
-    transform: translateY(-2px);
 }
 
-.submit-button:active {
-    transform: scale(0.98);
-}
-
-/* Error message */
 .error {
-    color: #d93025;
-    font-weight: 500;
     margin-top: 0.5rem;
-    padding: 0.5rem;
+    color: #d93025;
     background-color: #fdecea;
+    padding: 0.5rem;
     border-left: 4px solid #d93025;
     border-radius: 4px;
 }
+
+/* Transition styles */
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+    transition: all 0.3s ease;
+}
+
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
 
 /* Animations */
 @keyframes fadeInUp {
@@ -173,17 +186,5 @@ select:focus {
 .fade-in {
     opacity: 0;
     animation: fadeInUp 0.5s ease forwards;
-}
-
-/* Error message transition */
-.fade-slide-enter-active,
-.fade-slide-leave-active {
-    transition: all 0.3s ease;
-}
-
-.fade-slide-enter-from,
-.fade-slide-leave-to {
-    opacity: 0;
-    transform: translateY(-10px);
 }
 </style>

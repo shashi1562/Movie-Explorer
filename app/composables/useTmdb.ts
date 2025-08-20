@@ -28,11 +28,10 @@ export const useTmdbApi = () => {
     return res.json()
   }
 
-  const searchMovies = (query, year, genreId, page = 1) => {
+  const searchMovies = (query, year, page=1) => {
     return fetchFromTmdb('/search/movie', {
       'query':query,
       'year':year,
-      'with_genres': genreId,
       'page':page,
     })
   }
