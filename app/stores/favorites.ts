@@ -3,7 +3,6 @@ import { defineStore } from 'pinia'
 interface Movie {
   id: number | string
   title: string
-  // Add other fields as needed
 }
 
 export const useFavoritesStore = defineStore('favorites', {
@@ -22,5 +21,6 @@ export const useFavoritesStore = defineStore('favorites', {
     has(id: number | string): boolean {
       return this.list.some(m => m.id === id)
     }
-  }
+  },
+  persist: true
 })
