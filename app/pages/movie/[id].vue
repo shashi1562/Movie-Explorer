@@ -37,10 +37,9 @@
         <section v-if="movie.production_companies.length" class="production" aria-label="Production Companies">
             <h2>Production Companies</h2>
             <div class="logos">
-                <article v-for="company in movie.production_companies" :key="company.id" class="company" tabindex="0"
-                    aria-label="Production company">
+                <article v-for="company in movie.production_companies" :key="company.id" class="company" tabindex="0" aria-label="Production company">
                     <img v-if="company.logo_path" :src="`https://image.tmdb.org/t/p/w200${company.logo_path}`" :alt="company.name" loading="lazy" />
-                    <p>{{ company.name }}</p>
+                    <p v-else>{{ company.name }}</p>
                 </article>
             </div>
         </section>
@@ -71,7 +70,6 @@ const { data: movie } = await useAsyncData('movie', () =>
 .movie-container {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #fff;
-    background-color: rgba(0, 0, 0, 0.6);
     min-height: 100vh;
 }
 
@@ -183,16 +181,17 @@ const { data: movie } = await useAsyncData('movie', () =>
 }
 
 .production h2 {
-    color: #eee;
+    color: darkgrey;
     margin-bottom: 1rem;
     font-weight: 700;
+    text-align: center;
     font-size: 1.5rem;
 }
 
 .logos {
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem;
+    gap: 1.5rem;
     justify-content: center;
 }
 
@@ -200,9 +199,10 @@ const { data: movie } = await useAsyncData('movie', () =>
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     max-width: 160px;
     text-align: center;
-    color: #ccc;
+    color: darkgray;
     font-weight: 600;
     user-select: none;
 }
@@ -223,8 +223,8 @@ const { data: movie } = await useAsyncData('movie', () =>
 }
 .back-button {
   position: absolute;
-  margin: 1rem;
-  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+  padding: 0.5rem 0.7rem;
   background-color: #0077ff;
   color: #fff;
   border: none;
