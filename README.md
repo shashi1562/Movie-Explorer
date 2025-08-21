@@ -1,6 +1,6 @@
-# 🎬 Vue 3 TMDB Movie Explorer
+# 🎬 Movie Explorer (Nuxt 3 + Vue 3)
 
-A modern and responsive movie discovery application built with **Vue 3**, powered by the **TMDB API**. Users can search for movies, explore detailed movie pages, view genres, and manage their list of favorites.
+A modern and responsive movie discovery application built with **Vue 3**, powered by the **TMDB API**. Users can search for movies, explore detailes about movies, Filter by genres and Year, and manage their list of favorites.
 
 ---
 ## Preview
@@ -14,7 +14,7 @@ A modern and responsive movie discovery application built with **Vue 3**, powere
 - 🔍 **Movie Search**: Search movies by title, year, and genre.
 - 🧠 **Smart Search Form**: Validates input with feedback and submits only when a Movie Title is provided.
 - 🎞️ **Movie Details Page**: Rich UI showing posters, metadata, genres, production companies, collection info, and links to IMDb or the official site.
-- 💾 **Favorites Management**: Add/remove movies to your favorites (persisted in state).
+- 💾 **Favorites Management**: save and manage movies to your favorites (persisted in state).
 - 🧱 **Reusable Components**: Designed with composability and scalability in mind.
 - ⚡ **Performance Optimizations**:
   - Lazy-loaded components with dynamic imports
@@ -35,25 +35,21 @@ A modern and responsive movie discovery application built with **Vue 3**, powere
 
 ---
 
-## 📦 Project Structure
-
-
 ## Setup
+Clone Repo
+git clone https://github.com/your-username/movie-explorer.git
+cd movie-explorer
 
-Make sure to install dependencies:
 
-```bash
-# npm
+Install dependencies:
 npm install
-```
+
 
 ## Development Server
-
 Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
 npm run dev
-```
+
+## 📜 License
+MIT License © 2025 – shashi-lokini
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
