@@ -120,9 +120,13 @@ const toggleFav = () => {
   align-items: center;
   transition: color 0.3s ease;
 }
-
 .movie-card:hover .title {
-  color: #0077ff;
+  background: linear-gradient(135deg, #0077ff, #00d4ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  transition: all 0.3s ease;
 }
 
 .year {

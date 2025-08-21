@@ -129,20 +129,31 @@ input.invalid {
 }
 
 .submit-button {
-    padding: 0.5rem 1rem;
-    background-color: #0077ff;
-    color: white;
-    font-weight: 600;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background-color 0.3s ease;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #0077ff, #00d4ff);
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 9999px; /* pill shape for modern UI */
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 119, 255, 0.3);
+  position: relative;
+  overflow: hidden;
 }
 
 .submit-button:hover {
-    background-color: #005fcc;
+  background: linear-gradient(135deg, #005fcc, #00aaff);
+  box-shadow: 0 6px 16px rgba(0, 119, 255, 0.4);
+  transform: translateY(-2px);
 }
+
+.submit-button:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 8px rgba(0, 119, 255, 0.3);
+}
+
 
 .error {
     margin-top: 0.5rem;
