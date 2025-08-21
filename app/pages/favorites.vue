@@ -16,14 +16,12 @@
 import { defineAsyncComponent, computed } from 'vue'
 import { useFavoritesStore } from '~/stores/favorites'
 
-// Lazy load MovieCard
 const MovieCard = defineAsyncComponent(() =>
   import('@/components/MovieCard.vue')
 )
 
 const favorites = useFavoritesStore()
 
-// Memoize list and condition
 const favoriteList = computed(() => favorites.list)
 const hasFavorites = computed(() => favoriteList.value.length > 0)
 </script>

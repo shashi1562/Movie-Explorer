@@ -1,6 +1,5 @@
 <template>
     <div v-if="movie" class="movie-container" role="main" aria-label="Movie Details">
-        <!-- Backdrop Hero -->
         <button class="back-button" @click="goBack">← Back</button>
         <section class="hero" :style="{ backgroundImage: movie.backdrop_path ? `linear-gradient(to right, rgba(0,0,0,0.85), rgba(0,0,0,0.1)), url(https://image.tmdb.org/t/p/original${movie.backdrop_path})` : 'none' }">
             <div class="hero-content">
@@ -16,21 +15,16 @@
                         <p><strong>Genres:</strong> {{movie.genres.map(g => g.name).join(', ')}}</p>
                         <p><strong>Runtime:</strong> {{ movie.runtime }} min</p>
                         <p><strong>Release Date:</strong> {{ new Date(movie.release_date).toLocaleDateString() }}</p>
-                        <p><strong>Rating:</strong> ⭐ {{ movie.vote_average.toFixed(1) }} / 10 ({{
-                            movie.vote_count.toLocaleString() }} votes)</p>
-                        <p><strong>Language:</strong> {{movie.spoken_languages.map(l => l.english_name).join(', ')}}
-                        </p>
+                        <p><strong>Rating:</strong> ⭐ {{ movie.vote_average.toFixed(1) }} / 10 ({{movie.vote_count.toLocaleString() }} votes)</p>
+                        <p><strong>Language:</strong> {{movie.spoken_languages.map(l => l.english_name).join(', ')}}</p>
                         <p><strong>Country:</strong> {{movie.production_countries.map(c => c.name).join(', ')}}</p>
                     </section>
 
                     <nav class="links" aria-label="External links">
-                        <a :href="`https://www.imdb.com/title/${movie.imdb_id}`" target="_blank"
-                            rel="noopener noreferrer">View on IMDb</a>
-                        <a v-if="movie.homepage" :href="movie.homepage" target="_blank"
-                            rel="noopener noreferrer">Official Site</a>
+                        <a :href="`https://www.imdb.com/title/${movie.imdb_id}`" target="_blank" rel="noopener noreferrer">View on IMDb</a>
+                        <a v-if="movie.homepage" :href="movie.homepage" target="_blank" rel="noopener noreferrer">Official Site</a>
                     </nav>
 
-                    <!-- Collection -->
                     <section v-if="movie.belongs_to_collection" class="collection" aria-label="Belongs to collection">
                         <img :src="`https://image.tmdb.org/t/p/w200${movie.belongs_to_collection.poster_path}`"
                             :alt="`Collection poster: ${movie.belongs_to_collection.name}`" loading="lazy" />
@@ -40,14 +34,12 @@
             </div>
         </section>
 
-        <!-- Production Companies -->
         <section v-if="movie.production_companies.length" class="production" aria-label="Production Companies">
             <h2>Production Companies</h2>
             <div class="logos">
                 <article v-for="company in movie.production_companies" :key="company.id" class="company" tabindex="0"
                     aria-label="Production company">
-                    <img v-if="company.logo_path" :src="`https://image.tmdb.org/t/p/w200${company.logo_path}`"
-                        :alt="company.name" loading="lazy" />
+                    <img v-if="company.logo_path" :src="`https://image.tmdb.org/t/p/w200${company.logo_path}`" :alt="company.name" loading="lazy" />
                     <p>{{ company.name }}</p>
                 </article>
             </div>

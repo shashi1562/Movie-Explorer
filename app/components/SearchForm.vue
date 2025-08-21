@@ -92,7 +92,6 @@ const onSubmit = () => {
 </script>
 
 <style scoped>
-/* Base layout */
 input.invalid {
     border-color: #d93025;
     box-shadow: 0 0 0 3px rgba(217, 48, 37, 0.1);
@@ -107,16 +106,13 @@ input.invalid {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
-/* Form in one row */
 .search-form {
     display: flex;
     align-items: center;
     gap: 1rem;
     flex-wrap: wrap;
-    /* enables wrapping on small screens */
 }
 
-/* Inputs and select styles */
 .search-form input,
 .search-form select {
     padding: 0.5rem 0.75rem;
@@ -157,7 +153,6 @@ input.invalid {
     border-radius: 4px;
 }
 
-/* Transition styles */
 .fade-slide-enter-active,
 .fade-slide-leave-active {
     transition: all 0.3s ease;
@@ -170,7 +165,6 @@ input.invalid {
 }
 
 
-/* Animations */
 @keyframes fadeInUp {
     0% {
         opacity: 0;
