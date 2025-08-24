@@ -1,0 +1,1 @@
+import{j as i}from"./TJ7jymPr.js";const r=i("favorites",{state:()=>({list:[]}),actions:{add(t){this.list.find(s=>s.id===t.id)||this.list.push(t)},remove(t){this.list=this.list.filter(s=>s.id!==t)},has(t){return this.list.some(s=>s.id===t)}},persist:!0});export{r as u};
