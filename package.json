@@ -4,9 +4,8 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt",
-    "start": "nuxt start",
-    "deploy": "push-dir --dir-dist --branch-gh-pages --cleanup",
+    "dev": "nuxt dev",
+    "deploy": "gh-pages -d dist",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -25,6 +24,7 @@
   },
   "devDependencies": {
     "@vue/test-utils": "^2.4.6",
+    "gh-pages": "^6.3.0",
     "jsdom": "^26.1.0",
     "vitest": "^3.2.4",
     "vue-test-utils": "^0.5.0"

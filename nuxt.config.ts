@@ -6,10 +6,12 @@ export default defineNuxtConfig({
       tmdbToken: process.env.TMDB_TOKEN, // Expose to client-side
     },
   },
-  target:"static",
-  ssr:false,
-  router:{
-    base: '/Movie-Explorer/'
+    app: {
+    baseURL: '/Movie-Explorer/',
+    buildAssetsDir: 'assets'
+  },
+  nitro: {
+    preset: 'github-pages'
   }
 })
 

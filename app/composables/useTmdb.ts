@@ -4,7 +4,7 @@ export const useTmdbApi = () => {
   const config = useRuntimeConfig()
   const TOKEN = config.public.tmdbToken
 
-  const fetchFromTmdb = async (endpoint, params = {}) => {
+  const fetchFromTmdb = async (endpoint:string, params = {}) => {
     const url = new URL(BASE_URL + endpoint)
 
     Object.entries(params).forEach(([key, value]) => {
@@ -28,7 +28,7 @@ export const useTmdbApi = () => {
     return res.json()
   }
 
-  const searchMovies = (query, year, page=1) => {
+  const searchMovies = (query:string, year:number, page=1) => {
     return fetchFromTmdb('/search/movie', {
       'query':query,
       'year':year,
@@ -36,7 +36,7 @@ export const useTmdbApi = () => {
     })
   }
 
-  const fetchMovieDetails = (movieId) => {
+  const fetchMovieDetails = (movieId:number) => {
     return fetchFromTmdb(`/movie/${movieId}`)
   }
 
