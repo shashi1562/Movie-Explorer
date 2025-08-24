@@ -6,5 +6,10 @@ export default defineNuxtConfig({
       tmdbToken: process.env.TMDB_TOKEN, // Expose to client-side
     },
   },
+  target:"static",
+  ssr:false,
+  router:{
+    base: '/Movie-Explorer/'
+  }
 })
 

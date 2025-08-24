@@ -20,10 +20,10 @@
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
-import { useTmdbApi } from '@/composables/useTmdb'
+import { useTmdbApi } from '../composables/useTmdb'
 
 const emit = defineEmits(['submit'])
-import { useSearchStore } from '@/stores/search'
+import { useSearchStore } from '../stores/search'
 import { storeToRefs } from 'pinia'
 
 // Pinia store
