@@ -1,5 +1,16 @@
 <template>
   <SearchForm @submit="handleSearch" />
+  <div class="sort-bar" v-show="searchParams.title">
+    <label for="sort" class="sort-label">Sort by:</label>
+
+    <select id="sort" v-model="searchParams.genre" class="sort-select">
+      <option value="">All Genres</option>
+      <option disabled v-if="loadingGenres">Loading...</option>
+      <option v-for="g in genres" :key="g.id" :value="g.id">
+        {{ g.name }}
+      </option>
+    </select>
+  </div>
 
   <transition name="fade-slide">
     <div v-if="movies.length" class="movie-grid">
@@ -49,6 +60,37 @@ function handleSearch({ title, year, genre }) {
   moviesStore.setCurrentPage(1)
   fetchMovies()
 }
+
+const genres = ref([])
+const loadingGenres = ref(false)
+const error = ref('')
+
+
+const { fetchGenres } = useTmdbApi()
+
+const loadGenres = async () => {
+  loadingGenres.value = true
+  try {
+    const response = await fetchGenres()
+    genres.value = response.genres || []
+  } catch (err) {
+    console.error('Failed to load genres:', err)
+    error.value = 'Could not load genres.'
+  } finally {
+    loadingGenres.value = false
+  }
+}
+
+onMounted(() => {
+  loadGenres()
+})
+
+watch(() => searchParams.value.genre,
+  () => {
+    moviesStore.setCurrentPage(1)
+    fetchMovies()
+  }
+)
 
 function changePage(page) {
   moviesStore.setCurrentPage(page)
@@ -165,5 +207,44 @@ onMounted(() => {
 .fade-in {
   opacity: 0;
   animation: fadeInUp 0.5s ease forwards;
+}
+
+.sort-bar {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.sort-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.sort-select {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #111827;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  min-width: 180px;
+}
+
+.sort-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  /* blue-500 */
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+.sort-select option[disabled] {
+  color: #9ca3af;
 }
 </style>

@@ -3,11 +3,6 @@
         <form class="search-form" @submit.prevent="onSubmit">
             <input v-model="form.title" placeholder="Movie Title" :class="{ invalid: error && !form.title.trim() }" />
             <input v-model="form.year" type="number" placeholder="Year" />
-            <select v-model="form.genre">
-                <option value="">All Genres</option>
-                <option disabled v-show="loadingGenres">Loading...</option>
-                <option v-for="g in genres" :key="g.id" :value="g.id">{{ g.name }}</option>
-            </select>
             <button type="submit" class="submit-button">Search</button>
         </form>
 
@@ -19,8 +14,7 @@
 
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
-import { useTmdbApi } from '../composables/useTmdb'
+import { ref, reactive } from 'vue'
 
 const emit = defineEmits(['submit'])
 import { useSearchStore } from '../stores/search'
@@ -28,7 +22,7 @@ import { storeToRefs } from 'pinia'
 
 // Pinia store
 const searchStore = useSearchStore()
-const { title, year, genre } = storeToRefs(searchStore)
+const { title, year } = storeToRefs(searchStore)
 
 
 const form = reactive({
@@ -43,38 +37,11 @@ const form = reactive({
   },
   set year(val) {
     year.value = val
-  },
-  get genre() {
-    return genre.value
-  },
-  set genre(val) {
-    genre.value = val
   }
 })
 
 
 const error = ref('')
-const genres = ref([])
-const loadingGenres = ref(false)
-
-const { fetchGenres } = useTmdbApi()
-
-const loadGenres = async () => {
-    loadingGenres.value = true
-    try {
-        const response = await fetchGenres()
-        genres.value = response.genres || []
-    } catch (err) {
-        console.error('Failed to load genres:', err)
-        error.value = 'Could not load genres.'
-    } finally {
-        loadingGenres.value = false
-    }
-}
-
-onMounted(() => {
-    loadGenres()
-})
 
 const onSubmit = () => {
     if (!form.title.trim()) {
@@ -86,7 +53,6 @@ const onSubmit = () => {
     emit('submit', {
         title: form.title,
         year: form.year,
-        genre: form.genre
     })
 }
 </script>
