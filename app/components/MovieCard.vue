@@ -23,7 +23,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useFavoritesStore } from '~/stores/favorites'
+import { useFavoritesStore } from '../stores/favorites'
 
 const props = defineProps({
   movie: { type: Object, required: true }

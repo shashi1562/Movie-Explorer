@@ -23,6 +23,7 @@
     "vuex": "^4.1.0"
   },
   "devDependencies": {
+    "@pinia/testing": "^1.0.2",
     "@vue/test-utils": "^2.4.6",
     "gh-pages": "^6.3.0",
     "jsdom": "^26.1.0",
