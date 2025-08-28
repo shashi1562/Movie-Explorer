@@ -3,6 +3,9 @@
 A modern and responsive movie discovery application built with **Vue 3**, powered by the **TMDB API**. Users can search for movies, explore detailes about movies, Filter by genres and Year, and manage their list of favorites.
 
 ---
+
+## DEMO : https://shashi1562.github.io/Movie-Explorer/
+
 ## Preview
 <img width="1915" height="898" alt="image" src="https://github.com/user-attachments/assets/2f52c02b-882d-491c-a4d2-e520426fa3b7" />
 <img width="1918" height="833" alt="image" src="https://github.com/user-attachments/assets/0c99ffcf-f394-4f37-912f-df2cd877a560" />
